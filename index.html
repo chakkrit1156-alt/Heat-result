@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ภารกิจพิชิตนักวิทยาศาสตร์น้อย | ความร้อนกับสสาร ม.1</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Mitr:wght@400;500;600&display=swap');
+:root{--ink:#20304b;--muted:#687894;--purple:#7357e8;--pink:#ff6fae;--blue:#38bdf8;--mint:#37cda5;--yellow:#ffd45c;--paper:#fff;--bg:#f4f6ff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f2f4ff,#fff6fb 55%,#eafaff);font-family:'Kanit',sans-serif;color:var(--ink)}
+header{padding:26px max(18px,calc((100% - 1160px)/2));background:linear-gradient(110deg,#6049d9,#9476f4 55%,#fa83b7);color:#fff;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:280px;height:280px;border:38px solid #ffffff20;border-radius:50%;right:5%;top:-150px}
+.kicker{font-size:13px;letter-spacing:1px;opacity:.9}.hero{max-width:1160px;margin:auto;position:relative;z-index:1}
+h1{font-family:'Mitr';font-size:clamp(28px,4vw,44px);line-height:1.2;margin:8px 0}
+header p{margin:8px 0 0;max-width:780px;font-size:16px;opacity:.95}
+.wrap{max-width:1160px;margin:22px auto;padding:0 16px}
+.progress{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:14px 0 20px}
+.pill{border:0;border-radius:30px;padding:9px 15px;background:#fff;color:#5c6380;font:500 14px 'Kanit';box-shadow:0 4px 14px #45508012;cursor:pointer}
+.pill.active{background:#6d56e8;color:#fff}.pill.done{background:#d9fff1;color:#168b69}
+.panel{background:#ffffffed;border:1px solid #e8eafd;border-radius:22px;padding:22px;box-shadow:0 12px 32px #45508012;margin-bottom:18px}
+h2{font:600 23px 'Mitr';margin:0 0 12px;color:#493ab2}h3{font:500 18px 'Mitr';margin:0 0 10px}
+.sub{color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+.labgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.control{background:#f7f7ff;border-radius:15px;padding:12px}
+label{font-size:13px;font-weight:500;display:block;margin-bottom:5px}
+input[type=range]{width:100%;accent-color:#7459e8}
+.val{font-size:18px;font-weight:700;color:#654bd4}
+select{width:100%;padding:9px;border:1px solid #dce0f3;border-radius:10px;font:14px 'Kanit';background:#fff;color:var(--ink)}
+button.action{border:0;border-radius:13px;padding:10px 17px;font:500 15px 'Kanit';cursor:pointer;background:#6f57e8;color:white;box-shadow:0 5px 12px #7057e833}
+button.alt{background:#eaf0ff;color:#5143b7;box-shadow:none}button:disabled{opacity:.45;cursor:not-allowed}
+.buttons{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.stage{background:linear-gradient(180deg,#eaf7ff,#f5f0ff);border-radius:18px;min-height:280px;position:relative;overflow:hidden;padding:12px}
+canvas{width:100%;height:255px;display:block}
+.temp{font:700 30px 'Mitr';color:#e65d87}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:#fff;border-radius:13px;padding:9px 13px;flex:1;min-width:100px}
+.stat small{display:block;color:#8792aa}.stat strong{font-size:17px}
+.chartbox{height:255px;background:#fff;border:1px solid #e9eafa;border-radius:16px;padding:8px}
+#chart{width:100%;height:100%}
+.note{padding:12px 14px;border-radius:13px;background:#fff7d9;color:#755b16;font-size:14px;margin-top:12px}
+.callout{background:#f0edff;border-left:4px solid #765be8;padding:12px 15px;border-radius:10px;margin:12px 0;font-size:14px}
+.task{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #eef0f8}.task:last-child{border:0}
+.num{width:30px;height:30px;flex:none;border-radius:10px;background:#ffe5f0;color:#d44d88;display:grid;place-items:center;font-weight:700}
+textarea{width:100%;min-height:74px;border:1px solid #dfe3f2;border-radius:12px;padding:10px;font:14px 'Kanit';resize:vertical}
+.question{border:1px solid #e9eafa;border-radius:15px;padding:15px;margin:12px 0;background:#fff}
+.option{display:block;padding:8px 10px;margin:6px 0;border-radius:10px;background:#f7f8ff;cursor:pointer}.option:hover{background:#eeebff}
+.feedback{font-size:13px;margin-top:8px;font-weight:500}
+footer{text-align:center;padding:24px;color:#8993aa;font-size:13px}
+.hidden{display:none!important}.badge{display:inline-block;background:#e1fff4;color:#138b69;padding:4px 10px;border-radius:30px;font-size:12px;font-weight:600}
+@media(max-width:760px){.grid,.labgrid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.panel{padding:16px}header{padding:22px 18px}}
+</style>
+</head>
+<body>
+<header><div class="hero">
+<div class="kicker">SCIENCE QUEST • วิทยาศาสตร์และเทคโนโลยี • ชั้นมัธยมศึกษาปีที่ 1</div>
+<h1>🔥 ภารกิจพิชิตนักวิทยาศาสตร์น้อย</h1>
+<p>ผลของความร้อนต่อการเปลี่ยนแปลงอุณหภูมิและสถานะของสสาร — ทดลองจริงในโลกเสมือน สังเกต คิด วิเคราะห์ แล้วค้นพบคำตอบด้วยตัวเอง!</p>
+</div></header>
+<main class="wrap">
+<div class="progress" id="nav">
+<button class="pill active" data-go="intro">1 ภารกิจ</button><button class="pill" data-go="lab">2 ห้องทดลอง</button><button class="pill" data-go="think">3 คิดวิเคราะห์</button><button class="pill" data-go="blend">4 เรียนรู้ต่อเนื่อง</button><button class="pill" data-go="quiz">5 พิชิตแบบทดสอบ</button>
+</div>
+
+<section id="intro" class="page">
+<div class="panel">
+<h2>🎯 เป้าหมายของภารกิจ</h2>
+<div class="grid"><div>
+<p>เมื่อจบกิจกรรม นักเรียนจะสามารถ</p>
+<ul><li>ทดลองและสังเกตผลของการได้รับความร้อนต่ออุณหภูมิและสถานะของสสาร</li><li>อธิบายการเปลี่ยนแปลงระดับอนุภาคเมื่อสสารได้รับความร้อน</li><li>อ่านและวิเคราะห์กราฟอุณหภูมิกับเวลา รวมทั้งระบุช่วงที่อุณหภูมิคงที่</li><li>ตั้งสมมติฐาน ควบคุมตัวแปร และสรุปผลจากหลักฐาน</li></ul>
+<div class="callout"><b>คำถามชวนเอ๊ะ!</b> ทำไมเมื่อให้ความร้อนแก่น้ำแข็งต่อไปเรื่อย ๆ อุณหภูมิอาจไม่เพิ่มขึ้นในบางช่วง ทั้งที่ยังได้รับความร้อนอยู่?</div>
+</div><div class="stage" style="display:grid;place-items:center;text-align:center"><div style="font-size:76px">🧊 ➜ 💧 ➜ ☁️</div><h3>ภารกิจเปลี่ยนสถานะ</h3><p class="sub">ของแข็ง • ของเหลว • แก๊ส</p><span class="badge">เริ่มต้นจากน้ำแข็ง</span></div></div>
+</div>
+<div class="panel"><h2>🧭 แผนที่การเรียนรู้</h2>
+<div class="task"><div class="num">1</div><div><b>คาดการณ์ก่อนทดลอง</b><div class="sub">ตั้งสมมติฐานว่าเมื่อเพิ่มกำลังความร้อน กราฟจะเปลี่ยนอย่างไร</div></div></div>
+<div class="task"><div class="num">2</div><div><b>ลงมือทดลองในห้องปฏิบัติการเสมือน</b><div class="sub">ปรับตัวแปร สังเกตการเคลื่อนที่ของอนุภาค และติดตามกราฟแบบทันที</div></div></div>
+<div class="task"><div class="num">3</div><div><b>วิเคราะห์หลักฐานและอภิปราย</b><div class="sub">เปรียบเทียบผล อธิบายเหตุผล และเชื่อมโยงกับชีวิตประจำวัน</div></div></div>
+<div class="task"><div class="num">4</div><div><b>ประยุกต์ใช้และประเมินตนเอง</b><div class="sub">ทำกิจกรรมต่อเนื่องและตอบคำถามท้ายบท 5 ข้อ</div></div></div>
+<button class="action" onclick="go('lab')">เข้าสู่ห้องทดลอง →</button>
+</div></section>
+
+<section id="lab" class="page hidden">
+<div class="panel">
+<h2>🧪 ห้องทดลองเสมือนจริง: เครื่องให้ความร้อน</h2>
+<p class="sub">จำลองการให้ความร้อนแก่น้ำแข็งจนหลอมเหลวและเดือด (แบบจำลองเพื่อการเรียนรู้ ไม่ใช่ค่าทดลองมาตรฐาน)</p>
+<div class="controls">
+<div class="control"><label for="power">🔥 กำลังความร้อน</label><input id="power" type="range" min="1" max="5" value="3"><div class="val"><span id="powerV">3</span> ระดับ</div></div>
+<div class="control"><label for="mass">⚖️ มวลตัวอย่าง</label><input id="mass" type="range" min="50" max="250" step="25" value="100"><div class="val"><span id="massV">100</span> กรัม</div></div>
+<div class="control"><label for="material">🧫 ตัวอย่างสสาร</label><select id="material"><option value="water">น้ำ (แบบจำลอง)</option><option value="wax">ไข (แบบจำลอง)</option></select><div class="sub">เปรียบเทียบจุดเปลี่ยนสถานะ</div></div>
+</div>
+<div class="labgrid">
+<div><h3>🔬 สังเกตภาชนะและอนุภาค</h3><div class="stage"><canvas id="particles" width="560" height="320"></canvas></div>
+<div class="stats"><div class="stat"><small>อุณหภูมิ</small><div class="temp"><span id="temp">-10.0</span> °C</div></div><div class="stat"><small>สถานะโดยประมาณ</small><strong id="phase">ของแข็ง 🧊</strong></div><div class="stat"><small>เวลาจำลอง</small><strong><span id="time">0.0</span> s</strong></div></div></div>
+<div><h3>📈 กราฟอุณหภูมิกับเวลา</h3><div class="chartbox"><canvas id="chart" width="560" height="320"></canvas></div>
+<div class="buttons"><button class="action" id="start">▶ เริ่มให้ความร้อน</button><button class="action alt" id="step">⏭ เดินหน้า 1 ขั้น</button><button class="action alt" id="reset">↺ เริ่มใหม่</button></div>
+<div class="note" id="hint">สังเกตว่าอุณหภูมิเปลี่ยนแปลงอย่างไรเมื่อเริ่มให้ความร้อน</div></div>
+</div>
+<div class="callout"><b>หลักการสำคัญ:</b> ความร้อนที่สสารได้รับอาจทำให้อุณหภูมิสูงขึ้น หรือถูกใช้ในการเปลี่ยนสถานะโดยที่อุณหภูมิแทบคงที่ในช่วงเปลี่ยนสถานะ</div>
+</div>
+<div class="panel"><h2>🎮 ภารกิจย่อย: ทดลองให้ครบ 3 รอบ</h2>
+<div class="task"><div class="num">A</div><div><b>รอบที่ 1 — เปลี่ยนกำลังความร้อน</b><p class="sub">ตั้งมวล 100 กรัม ทดลองกำลังความร้อนระดับ 1 และ 5 เปรียบเทียบเวลาที่ใช้จนถึงจุดเดือด</p></div></div>
+<div class="task"><div class="num">B</div><div><b>รอบที่ 2 — เปลี่ยนมวล</b><p class="sub">ตั้งกำลังความร้อนระดับ 3 เปรียบเทียบมวล 50 และ 200 กรัม สังเกตเวลาที่ใช้ในการเปลี่ยนสถานะ</p></div></div>
+<div class="task"><div class="num">C</div><div><b>รอบที่ 3 — สังเกตช่วงอุณหภูมิคงที่</b><p class="sub">กดเดินหน้าทีละขั้นในช่วงที่กราฟราบ แล้วอธิบายว่าพลังงานถูกใช้ไปกับอะไร</p></div></div>
+<p><label>บันทึกผลการทดลอง / สิ่งที่สังเกตเห็น</label><textarea id="labnote" placeholder="เช่น เมื่อเพิ่มกำลังความร้อน... กราฟมีลักษณะ..."></textarea></p>
+</div></section>
+
+<section id="think" class="page hidden">
+<div class="panel"><h2>🧠 คิดให้ลึก: นักวิทยาศาสตร์ใช้หลักฐาน</h2>
+<div class="task"><div class="num">1</div><div><b>การสังเกต</b><p class="sub">ระบุช่วงที่อุณหภูมิเพิ่มขึ้น และช่วงที่อุณหภูมิคงที่จากกราฟ</p></div></div>
+<div class="task"><div class="num">2</div><div><b>การตั้งสมมติฐาน</b><p class="sub">ถ้าเพิ่มกำลังความร้อนเป็น 2 เท่า นักเรียนคาดว่าเวลาที่ใช้จะเปลี่ยนอย่างไร เพราะเหตุใด?</p></div></div>
+<div class="task"><div class="num">3</div><div><b>การควบคุมตัวแปร</b><p class="sub">หากต้องการศึกษาผลของมวล ต้องควบคุมสิ่งใดให้เหมือนกันบ้าง?</p></div></div>
+<div class="task"><div class="num">4</div><div><b>การแปลความหมายข้อมูล</b><p class="sub">เพราะเหตุใดอุณหภูมิจึงคงที่ขณะกำลังหลอมเหลวหรือเดือด ทั้งที่ยังให้ความร้อน?</p></div></div>
+<div class="task"><div class="num">5</div><div><b>การประยุกต์ใช้</b><p class="sub">ยกตัวอย่างการใช้ความรู้เรื่องการเปลี่ยนสถานะในชีวิตประจำวัน 1 ตัวอย่าง</p></div></div>
+<label>คำอธิบายของฉัน</label><textarea id="thinknote" placeholder="เขียนคำตอบโดยใช้ข้อมูลจากการทดลองสนับสนุน"></textarea>
+</div>
+<div class="panel"><h2>⚛️ แบบจำลองอนุภาคของสสาร</h2><p class="sub">เลือกสถานะเพื่อเปรียบเทียบการจัดเรียงและการเคลื่อนที่ของอนุภาค (เป็นการเปรียบเทียบสถานะ ไม่ใช่ภาพการเปลี่ยนสถานะแบบต่อเนื่อง)</p>
+<div class="buttons"><button class="action alt" onclick="showParticles('solid')">🧊 ของแข็ง</button><button class="action alt" onclick="showParticles('liquid')">💧 ของเหลว</button><button class="action alt" onclick="showParticles('gas')">☁️ แก๊ส</button></div>
+<div class="stage"><canvas id="states" width="800" height="240"></canvas></div><div id="stateText" class="callout">ของแข็ง: อนุภาคอยู่ชิดกัน เรียงตัวค่อนข้างเป็นระเบียบ สั่นรอบตำแหน่งเดิม</div>
+</div></section>
+
+<section id="blend" class="page hidden">
+<div class="panel"><h2>🌐 เรียนรู้ได้ทุกที่: Blended & Seamless Learning</h2>
+<div class="grid"><div><h3>🏫 ในห้องเรียน (Face-to-face)</h3><ul><li>ครูชวนคิดจากก้อนน้ำแข็งและน้ำเดือดจริง</li><li>ทำงานกลุ่ม ตั้งสมมติฐาน และกำหนดตัวแปรต้น–ตาม–ควบคุม</li><li>ทดลองด้วยชุดสาธิตหรือห้องทดลองเสมือนบนอุปกรณ์ร่วมกัน</li><li>อภิปรายกราฟและนำเสนอข้อค้นพบ</li></ul></div><div><h3>📱 นอกห้องเรียน (Online / Anywhere)</h3><ul><li>เปิดสื่อ HTML นี้จากโทรศัพท์ แท็บเล็ต หรือคอมพิวเตอร์</li><li>ทดลองปรับค่าซ้ำและบันทึกภาพ/ข้อมูลกราฟ</li><li>ค้นหาตัวอย่างการเปลี่ยนสถานะในบ้านอย่างปลอดภัย</li><li>ส่งบันทึกผลหรือเสียงอธิบายผ่านช่องทางที่ครูกำหนด</li></ul></div></div>
+<div class="callout"><b>Seamless Learning:</b> นักเรียนเริ่มตั้งคำถามในห้องเรียน ทดลองต่อที่บ้าน และนำหลักฐานกลับมาอภิปรายในชั้นเรียน โดยใช้คำถามและบันทึกผลชุดเดียวกัน</div>
+</div>
+<div class="panel"><h2>🏡 ภารกิจเชื่อมโยงชีวิตจริง</h2><p>สังเกตสิ่งของหรือเหตุการณ์ 1 อย่าง เช่น น้ำแข็งละลาย ไอน้ำเกาะฝาหม้อ หรือเทียนไขหลอมเหลว แล้วบันทึกว่าได้รับหรือคายความร้อน สถานะเริ่มต้นและสุดท้ายคืออะไร</p><textarea id="homework" placeholder="เหตุการณ์ที่สังเกต / หลักฐาน / คำอธิบายทางวิทยาศาสตร์"></textarea>
+<p class="sub">ข้อควรระวัง: ไม่ทดลองกับน้ำเดือด เปลวไฟ หรือสารร้อนด้วยตนเอง ให้สังเกตจากระยะปลอดภัยและอยู่ภายใต้การดูแลของผู้ใหญ่</p></div>
+</section>
+
+<section id="quiz" class="page hidden">
+<div class="panel"><h2>🏆 ด่านสุดท้าย: พิชิตนักวิทยาศาสตร์น้อย</h2><p class="sub">เลือกคำตอบที่ถูกต้องที่สุด 5 ข้อ แล้วกดตรวจคำตอบเพื่อรับคะแนน</p>
+<form id="quizForm">
+<div class="question"><b>1. เมื่อให้ความร้อนแก่น้ำแข็งที่อุณหภูมิต่ำกว่า 0°C โดยทั่วไปจะเกิดสิ่งใดก่อน?</b>
+<label class="option"><input type="radio" name="q1" value="a"> a) อุณหภูมิลดลง</label><label class="option"><input type="radio" name="q1" value="b"> b) อุณหภูมิเพิ่มขึ้นจนถึงจุดหลอมเหลว</label><label class="option"><input type="radio" name="q1" value="c"> c) กลายเป็นแก๊สทันที</label><div class="feedback" id="f1"></div></div>
+<div class="question"><b>2. ขณะน้ำแข็งกำลังหลอมเหลวที่ความดันบรรยากาศปกติ อุณหภูมิของน้ำแข็งและน้ำผสมมีแนวโน้มเป็นอย่างไร?</b>
+<label class="option"><input type="radio" name="q2" value="a"> a) คงที่ใกล้ 0°C</label><label class="option"><input type="radio" name="q2" value="b"> b) เพิ่มขึ้นอย่างรวดเร็ว</label><label class="option"><input type="radio" name="q2" value="c"> c) ลดลงถึง -100°C</label><div class="feedback" id="f2"></div></div>
+<div class="question"><b>3. พลังงานความร้อนที่ได้รับในช่วงกำลังเปลี่ยนสถานะ ถูกใช้ไปกับสิ่งใดเป็นหลัก?</b>
+<label class="option"><input type="radio" name="q3" value="a"> a) ทำให้มวลหายไป</label><label class="option"><input type="radio" name="q3" value="b"> b) ทำให้อนุภาคเปลี่ยนการจัดเรียง/แรงยึดเหนี่ยวระหว่างอนุภาค</label><label class="option"><input type="radio" name="q3" value="c"> c) ทำให้จำนวนอนุภาคเพิ่มขึ้น</label><div class="feedback" id="f3"></div></div>
+<div class="question"><b>4. หากต้องการศึกษาว่า “มวล” มีผลต่อเวลาการได้รับความร้อนอย่างไร ควรทำอย่างไร?</b>
+<label class="option"><input type="radio" name="q4" value="a"> a) เปลี่ยนมวลและกำลังความร้อนพร้อมกัน</label><label class="option"><input type="radio" name="q4" value="b"> b) ควบคุมกำลังความร้อนและเงื่อนไขอื่นให้เหมือนกัน แล้วเปลี่ยนมวล</label><label class="option"><input type="radio" name="q4" value="c"> c) ไม่ต้องบันทึกเวลา</label><div class="feedback" id="f4"></div></div>
+<div class="question"><b>5. ข้อใดอธิบายการเดือดของน้ำได้ถูกต้องที่สุด?</b>
+<label class="option"><input type="radio" name="q5" value="a"> a) น้ำเปลี่ยนจากของเหลวเป็นแก๊สทั่วทั้งของเหลว</label><label class="option"><input type="radio" name="q5" value="b"> b) น้ำเปลี่ยนเป็นของแข็ง</label><label class="option"><input type="radio" name="q5" value="c"> c) อนุภาคหยุดเคลื่อนที่</label><div class="feedback" id="f5"></div></div>
+<button type="button" class="action" onclick="gradeQuiz()">ตรวจคำตอบและดูเฉลย</button> <button type="button" class="action alt" onclick="resetQuiz()">ทำใหม่</button>
+</form><div id="score" class="callout hidden"></div>
+</div>
+<div class="panel"><h2>📌 สรุปความรู้ที่ค้นพบ</h2><ul><li>อุณหภูมิสัมพันธ์กับพลังงานจลน์เฉลี่ยของอนุภาค</li><li>เมื่อสสารได้รับความร้อน อุณหภูมิอาจเพิ่มขึ้น หรือเกิดการเปลี่ยนสถานะ</li><li>ระหว่างการเปลี่ยนสถานะของสารบริสุทธิ์ที่ความดันคงที่ อุณหภูมิมักคงที่จนกว่าการเปลี่ยนสถานะจะเสร็จสิ้น</li><li>มวลและกำลังความร้อนมีผลต่อเวลาที่ใช้ในการเปลี่ยนแปลง</li></ul></div>
+</section>
+</main>
+<footer>สื่อประกอบการเรียนรู้วิทยาศาสตร์ ม.1 • ใช้เพื่อการศึกษา • แบบจำลองเชิงแนวคิด ไม่แทนการทดลองจริง</footer>
+<script>
+const $=id=>document.getElementById(id);
+let temp=-10, time=0, running=false, timer=null, data=[{t:0,v:-10}], phase='solid', phaseStep=0;
+const material=()=> $('material').value;
+function thresholds(){return material()==='water'?{m:0,b:100}:{m:55,b:180}}
+function rate(){return (+$('power').value)*0.32*(100/(+$('mass').value))}
+function getPhase(){let th=thresholds();if(temp< th.m || (temp===th.m && phaseStep===0))return 'solid';if(temp===th.m && phaseStep===1)return 'melting';if(temp<th.b)return 'liquid';if(temp===th.b && phaseStep===2)return 'boiling';return 'gas'}
+function tick(){
+ let th=thresholds(), r=rate();
+ if(temp<th.m){temp=Math.min(th.m,temp+r);if(temp===th.m)phaseStep=1}
+ else if(phaseStep===1){phaseStep=2; /* first plateau step */ }
+ else if(phaseStep===2){temp=th.m;phaseStep=3}
+ else if(temp<th.b){temp=Math.min(th.b,temp+r);if(temp===th.b)phaseStep=4}
+ else if(phaseStep===4){phaseStep=5}
+ else if(phaseStep===5){temp=th.b;phaseStep=6}
+ else {temp=Math.min(th.b+70,temp+r)}
+ time+=1; data.push({t:time,v:temp}); if(data.length>500)data.shift();
+ render();
+}
+function currentPhase(){
+ let th=thresholds();
+ if(temp<th.m)return 'ของแข็ง 🧊';
+ if(temp===th.m && phaseStep<=2)return 'กำลังหลอมเหลว 🧊💧';
+ if(temp<th.b)return 'ของเหลว 💧';
+ if(temp===th.b && phaseStep<=5)return 'กำลังเดือด 💧☁️';
+ return 'แก๊ส ☁️';
+}
+function render(){
+ $('temp').textContent=temp.toFixed(1);$('time').textContent=time.toFixed(1);$('phase').textContent=currentPhase();
+ $('powerV').textContent=$('power').value;$('massV').textContent=$('mass').value;
+ drawParticles();drawChart();
+ let th=thresholds();
+ $('hint').textContent=(temp===th.m&&phaseStep<=2)?'สังเกต: กำลังหลอมเหลว ความร้อนถูกใช้ในการเปลี่ยนสถานะ อุณหภูมิจึงคงที่ในแบบจำลอง':
+ (temp===th.b&&phaseStep<=5)?'สังเกต: กำลังเดือด พลังงานถูกใช้ในการเปลี่ยนของเหลวเป็นแก๊ส อุณหภูมิคงที่ในแบบจำลอง':
+ 'สังเกตการเปลี่ยนแปลงอุณหภูมิและการเคลื่อนที่ของอนุภาค';
+}
+function drawParticles(){
+ const c=$('particles'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);
+ ctx.fillStyle='#ffffffaa';ctx.fillRect(40,25,480,260);ctx.strokeStyle='#9bb7df';ctx.lineWidth=5;ctx.strokeRect(40,25,480,260);
+ let p=currentPhase(),n=34,th=thresholds(),gas=p.includes('แก๊ส'),solid=p.includes('ของแข็ง')&&!p.includes('หลอม');
+ let seed=4;
+ for(let i=0;i<n;i++){let x,y;if(solid){x=95+(i%7)*58+(i%2)*3;y=210-Math.floor(i/7)*36;}else if(gas){x=65+((i*73+time*13)%430);y=35+((i*47+time*17)%225)}else{x=65+((i*61+time*5)%430);y=205-((i*31+time*7)%135)}
+ ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle=gas?'#ff9b74':solid?'#55a9ed':'#9b83ef';ctx.fill();ctx.strokeStyle='#ffffff';ctx.lineWidth=2;ctx.stroke();
+ }
+ ctx.fillStyle='#41516e';ctx.font='bold 16px Kanit';ctx.fillText(p,55,305);
+}
+function drawChart(){
+ const c=$('chart'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);
+ let L=52,R=18,T=20,B=42,th=thresholds(),maxT=Math.max(140,th.b+20),maxX=Math.max(20,time);
+ ctx.strokeStyle='#e8eaf4';ctx.lineWidth=1;
+ for(let i=0;i<=5;i++){let y=T+(h-T-B)*i/5;ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(w-R,y);ctx.stroke()}
+ ctx.strokeStyle='#8290ad';ctx.beginPath();ctx.moveTo(L,T);ctx.lineTo(L,h-B);ctx.lineTo(w-R,h-B);ctx.stroke();
+ ctx.fillStyle='#62708c';ctx.font='13px Kanit';ctx.fillText('อุณหภูมิ (°C)',5,15);ctx.fillText('เวลา (วินาที)',w-95,h-8);
+ ctx.fillText('0',L-18,h-B+5);ctx.fillText(maxT+'°',7,T+5);
+ let minV=-15;ctx.beginPath();data.forEach((d,i)=>{let x=L+(d.t/maxX)*(w-L-R),y=T+(maxT-d.v)/(maxT-minV)*(h-T-B);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.strokeStyle='#ed669d';ctx.lineWidth=4;ctx.stroke();
+ // phase-change guide lines
+ [th.m,th.b].forEach(v=>{let y=T+(maxT-v)/(maxT-minV)*(h-T-B);ctx.setLineDash([5,5]);ctx.strokeStyle='#8e80d8';ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(w-R,y);ctx.stroke();ctx.setLineDash([])});
+}
+function stop(){running=false;clearInterval(timer);$('start').textContent='▶ เริ่มให้ความร้อน'}
+$('start').onclick=()=>{if(running){stop();return}running=true;$('start').textContent='⏸ หยุดชั่วคราว';timer=setInterval(tick,350)};
+$('step').onclick=()=>{stop();tick()};
+$('reset').onclick=()=>{stop();temp=-10;time=0;phaseStep=0;data=[{t:0,v:-10}];render()};
+['power','mass','material'].forEach(id=>$(id).addEventListener('input',()=>{if(id==='material'){$('reset').click()}else render()}));
+function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.pill').forEach(b=>b.classList.toggle('active',b.dataset.go===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='think')showParticles('solid')}
+document.querySelectorAll('.pill').forEach(b=>b.onclick=()=>go(b.dataset.go));
+function showParticles(s){
+ const c=$('states'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#ffffffaa';ctx.fillRect(10,10,w-20,h-20);
+ for(let i=0;i<42;i++){let x,y;if(s==='solid'){x=100+(i%7)*28;y=65+Math.floor(i/7)*24}else if(s==='liquid'){x=35+(i*67%w);y=115+(i*37%90)}else{x=25+(i*83%w);y=25+(i*53%180)}
+ ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle=s==='solid'?'#48a8ec':s==='liquid'?'#8c79ed':'#ff9874';ctx.fill()}
+ $('stateText').textContent=s==='solid'?'ของแข็ง: อนุภาคอยู่ชิดกัน เรียงตัวค่อนข้างเป็นระเบียบ สั่นรอบตำแหน่งเดิม':s==='liquid'?'ของเหลว: อนุภาคอยู่ค่อนข้างชิด แต่เลื่อนผ่านกันได้ จึงเปลี่ยนรูปร่างตามภาชนะ':'แก๊ส: อนุภาคอยู่ห่างกัน เคลื่อนที่ได้อย่างอิสระ และกระจายเต็มภาชนะ';
+}
+const answers={q1:'b',q2:'a',q3:'b',q4:'b',q5:'a'};
+const explains={q1:'เมื่อได้รับความร้อน น้ำแข็งจะมีอุณหภูมิสูงขึ้นจนถึงจุดหลอมเหลว',q2:'ที่ความดันปกติ น้ำแข็งและน้ำที่กำลังหลอมเหลวอยู่ร่วมกันใกล้ 0°C',q3:'พลังงานถูกใช้ในการเปลี่ยนสถานะและเอาชนะแรงยึดเหนี่ยวระหว่างอนุภาค',q4:'เปลี่ยนเฉพาะมวลและควบคุมปัจจัยอื่น เพื่อให้เปรียบเทียบได้อย่างยุติธรรม',q5:'การเดือดเป็นการเปลี่ยนสถานะจากของเหลวเป็นแก๊สที่เกิดทั่วทั้งของเหลว'};
+function gradeQuiz(){let score=0;for(let i=1;i<=5;i++){let q='q'+i,sel=document.querySelector('input[name='+q+']:checked'),f=$('f'+i);if(sel&&sel.value===answers[q]){score++;f.textContent='✓ ถูกต้อง! '+explains[q];f.style.color='#168b69'}else{f.textContent='เฉลย: '+answers[q].toUpperCase()+'. '+explains[q];f.style.color='#d34f78'}}
+ $('score').classList.remove('hidden');$('score').innerHTML='<b>คะแนนของคุณ: '+score+'/5</b><br>'+(score===5?'ยอดเยี่ยม! คุณเป็นนักวิทยาศาสตร์ตัวจริง 🏆':score>=3?'ทำได้ดี! ทบทวนคำอธิบายแล้วลองอีกครั้ง':'ลองกลับไปทดลองและสังเกตกราฟอีกครั้ง คุณทำได้!') }
+function resetQuiz(){$('quizForm').reset();$('score').classList.add('hidden');for(let i=1;i<=5;i++)$('f'+i).textContent=''}
+render();showParticles('solid');
+</script>
+</body></html>
